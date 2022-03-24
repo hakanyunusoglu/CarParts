@@ -40,7 +40,6 @@ namespace CarParts.Api.Controllers
             {
                  _repository.UpdateAsync(model);
                 return Ok();
-                //asdadadadadada
             }
             return BadRequest(ModelState);
         }
