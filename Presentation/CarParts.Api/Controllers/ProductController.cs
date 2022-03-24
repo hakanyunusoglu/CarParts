@@ -38,8 +38,9 @@ namespace CarParts.Api.Controllers
         {
            if(_repository.GetByIdAsync(model.Id)!= null)
             {
-                _repository.UpdateAsync(model);
+                 _repository.UpdateAsync(model);
                 return Ok();
+                //asdadadadadada
             }
             return BadRequest(ModelState);
         }
