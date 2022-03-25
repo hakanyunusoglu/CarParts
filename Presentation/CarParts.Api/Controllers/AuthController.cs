@@ -30,11 +30,11 @@ namespace CarParts.Api.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> SignIn(AppUser user)
         {
-            var data = await _repository.GetByFilterAsync(x => x.Username == user.Username);
+            var data = await _repository.GetByFilterAsync(x => x.Username == user.Username || x.Email==user.e);
             if (data != null)
             {
                 user.Email = data?.Email;
-                var role = await _repository.GetByFilterAsync(x => x.Email == data.Email);    
+                user.AppRole=data?.AppRole;
                 return Created(string.Empty, user);
             }
             else
