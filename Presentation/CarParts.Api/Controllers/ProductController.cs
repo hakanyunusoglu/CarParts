@@ -36,13 +36,28 @@ namespace CarParts.Api.Controllers
         [HttpPut]
         public async Task<IActionResult> Edit(Product model)
         {
-           if(_repository.GetByIdAsync(model.Id)!= null)
+            var checkProduct = await _repository.GetByIdAsync(model.Id);
+            if (checkProduct == null)
             {
+
+                return NotFound();
+
                  _repository.UpdateAsync(model);
                 return Ok();
                 //asdadadadadada
             }
-            return BadRequest(ModelState);
+            await _repository.UpdateAsync(model);
+            return NoContent();
+        }
+        [HttpDelete]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var deleteProduct = await _repository.GetByIdAsync(id);
+            if (deleteProduct == null)
+                return NotFound();
+
+            await _repository.RemoveAsync(deleteProduct);
+            return NoContent();
         }
     }
 }
