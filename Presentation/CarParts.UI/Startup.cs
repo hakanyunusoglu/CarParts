@@ -23,12 +23,12 @@ namespace CarParts.UI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            
+
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-              
+
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
@@ -42,9 +42,19 @@ namespace CarParts.UI
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapAreaControllerRoute(
+                     name: "Management",
+                     areaName: "Management",
+                     pattern: "Management/{controller=Home}/{action=Index}/{id?}"
+                   );
+                    endpoints.MapAreaControllerRoute(
+                     name: "WebUI",
+                     areaName: "WebUI",
+                     pattern: "WebUI/{controller=Home}/{action=Index}/{id?}"
+                   );
+                });
             });
         }
     }
