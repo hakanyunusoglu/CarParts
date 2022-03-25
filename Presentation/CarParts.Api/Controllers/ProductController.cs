@@ -39,7 +39,12 @@ namespace CarParts.Api.Controllers
             var checkProduct = await _repository.GetByIdAsync(model.Id);
             if (checkProduct == null)
             {
+
                 return NotFound();
+
+                 _repository.UpdateAsync(model);
+                return Ok();
+                //asdadadadadada
             }
             await _repository.UpdateAsync(model);
             return NoContent();
