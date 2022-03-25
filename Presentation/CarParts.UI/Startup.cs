@@ -44,16 +44,22 @@ namespace CarParts.UI
             {
                 app.UseEndpoints(endpoints =>
                 {
-                    endpoints.MapAreaControllerRoute(
+                    // endpoints.MapAreaControllerRoute(
+                    //  name: "Management",
+                    //  areaName: "Management",
+                    //  pattern: "{area:exists}/{controller}/{action}/{id?}"
+                    //);
+                    // endpoints.MapAreaControllerRoute(
+                    //  name: "WebUI",
+                    //  areaName: "WebUI",
+                    //  pattern: "WebUI/{controller=Home}/{action=Index}/{id?}"
+                    //);
+                    endpoints.MapControllerRoute(
                      name: "Management",
-                     areaName: "Management",
-                     pattern: "Management/{controller=Home}/{action=Index}/{id?}"
-                   );
-                    endpoints.MapAreaControllerRoute(
-                     name: "WebUI",
-                     areaName: "WebUI",
-                     pattern: "WebUI/{controller=Home}/{action=Index}/{id?}"
-                   );
+                     pattern: "{area:exists}/{controller}/{action}/{id?}");
+                    endpoints.MapControllerRoute(
+                     name: "default",
+                     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                 });
             });
         }

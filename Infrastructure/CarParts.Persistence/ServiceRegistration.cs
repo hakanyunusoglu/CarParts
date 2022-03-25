@@ -43,6 +43,7 @@ namespace CarParts.Persistence
                 FileProvider = new PhysicalFileProvider(path),
                 RequestPath = "/modules"
             };
+            app.UseStaticFiles(options);
             return app;
         }
     }
