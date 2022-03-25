@@ -13,7 +13,7 @@ namespace CarParts.Domain.Entities
         public string? Password { get; set; }
         public string? Email { get; set; }
 
-        public Guid AppRoleId { get; set; }
+        public int AppRoleId { get; set; }
         public AppRole AppRole { get; set; }
         public List<AppUserPhone> Phones { get; set; }
         public List<AppUserAdress> Adresses { get; set; }
