@@ -2,11 +2,13 @@
 using CarParts.Domain.Entities;
 using CarsParts.Application.Dto;
 using CarsParts.Application.Repositories;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarParts.Api.Controllers
 {
+    [EnableCors]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase

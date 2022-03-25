@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CarParts.Persistence.Migrations
 {
-    public partial class mig_1 : Migration
+    public partial class Ananza : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
