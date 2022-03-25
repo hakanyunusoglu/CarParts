@@ -4,8 +4,10 @@ using CarParts.Persistence.Repository;
 using CarsParts.Application.Mapping;
 using CarsParts.Application.Repositories;
 using MediatR;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +33,17 @@ namespace CarParts.Persistence
             });
             services.AddMediatR(Assembly.GetExecutingAssembly());
 
+        }
+        //npm ile node_modules klasörü altında tasarım olarak bootstrap 5 i kullanmak için bu builderi ekledik. UI tasarımlarında dosya olarak node_modules içindeki bootstrap şablonunu kullanacağız
+        public static IApplicationBuilder CustomStaticFiles(this IApplicationBuilder app)
+        {
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "node_modules");
+            var options = new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(path),
+                RequestPath = "/modules"
+            };
+            return app;
         }
     }
 }
