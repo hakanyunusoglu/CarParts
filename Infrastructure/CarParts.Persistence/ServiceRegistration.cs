@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿    using AutoMapper;
 using CarParts.Persistence.Context;
 using CarParts.Persistence.Repository;
 using CarsParts.Application.Mapping;
@@ -21,6 +21,8 @@ namespace CarParts.Persistence
         {
             services.AddDbContext<CarPartsDbContext>(options => options.UseNpgsql("User ID=postgres;Password=123456;Host=localhost;Port=5432;Database=CarPartsDB;"));
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddMediatR(Assembly.GetExecutingAssembly());
+
             services.AddAutoMapper(opt =>
             {
                 opt.AddProfiles(new List<Profile>()
@@ -29,7 +31,7 @@ namespace CarParts.Persistence
     });
 
             });
-            services.AddMediatR(Assembly.GetExecutingAssembly());
+
 
         }
     }

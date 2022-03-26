@@ -1,4 +1,5 @@
 ﻿using CarParts.Domain.Entities;
+using CarsParts.Application.Enums;
 using CarsParts.Application.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -10,9 +11,9 @@ namespace CarParts.Api.Controllers
     [EnableCors]
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
     public class CategoriesController : ControllerBase
     {
+        
         private readonly IRepository<Category> _repository;
       
 
@@ -21,6 +22,7 @@ namespace CarParts.Api.Controllers
             _repository = repository;
             
         }
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> List()
         {

@@ -16,12 +16,14 @@ namespace CarParts.Api.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IRepository<AppUser> _repository;
+        private readonly IRepository<AppRole> _repositorys;
 
-        public AuthController(IRepository<AppUser> repository)
+        public AuthController(IRepository<AppUser> repository, IRepository<AppRole> repositorys)
         {
             _repository = repository;
+            _repositorys = repositorys;
         }
-       [HttpPost("[action]")]
+        [HttpPost("[action]")]
        public  async Task<IActionResult> Register(AppUser user)
         {
          var data=  _repository.CreateAsync(new AppUser
@@ -32,6 +34,13 @@ namespace CarParts.Api.Controllers
             return Created(string.Empty,data);
 
         }
+        [HttpGet]
+        public async Task<IActionResult> List()
+        {
+            var data = await _repository.GetAllAsync();
+            return Ok(data);
+        }
+
         [HttpPost("[action]")]
         public async Task<IActionResult> SignIn(AppUser user)
         {
@@ -40,10 +49,11 @@ namespace CarParts.Api.Controllers
             {
 
                 user.Username = data?.Username;
-                var role = await _repository.GetByFilterAsync(x => x.AppRoleId == user.AppRoleId);
-                //user.AppRole=data?.AppRole;
+                var role = await _repositorys.GetByFilterAsync(x => x.ID == data.AppRoleId);
+                user.AppRole.ID = (int)data?.AppRoleId;
+
                 //Burada bir sıkıntı var agalarım
-                var token = JwtTokenGenerator.GenerateToken(data, data.AppRole);
+                var token = JwtTokenGenerator.GenerateToken(data,role);
 
                 return Created(string.Empty, token);
             }

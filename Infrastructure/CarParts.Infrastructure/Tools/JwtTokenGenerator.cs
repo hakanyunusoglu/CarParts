@@ -17,14 +17,14 @@ namespace CarParts.Infrastructure.Tools
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtTokenSettings.Key));
             SigningCredentials credentials = new SigningCredentials(securityKey,SecurityAlgorithms.HmacSha256);
             List<Claim> claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.Role, user.AppRole.Definition));
+            claims.Add(new Claim(ClaimTypes.Role, role.Definition));
 
             ///Burada KAldım agalar ellemeyin... 
             claims.Add(new Claim(ClaimTypes.Name, user.Username));
             claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
 
 
-            JwtSecurityToken token = new JwtSecurityToken(issuer:JwtTokenSettings.Audience,claims:claims,notBefore:DateTime.Now,expires:DateTime.Now.AddDays(JwtTokenSettings.Expire),signingCredentials: credentials);
+            JwtSecurityToken token = new JwtSecurityToken(issuer:JwtTokenSettings.Issuer,audience:JwtTokenSettings.Audience,claims:claims,notBefore:DateTime.Now,expires:DateTime.Now.AddDays(JwtTokenSettings.Expire),signingCredentials: credentials);
             JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
             return new  JwtTokenResponse (handler.WriteToken(token));
         }
