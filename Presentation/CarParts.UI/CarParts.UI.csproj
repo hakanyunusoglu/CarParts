@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Management\Models\**" />
+    <Content Remove="Areas\Management\Models\**" />
+    <EmbeddedResource Remove="Areas\Management\Models\**" />
+    <None Remove="Areas\Management\Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.3">
@@ -27,7 +34,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Management\Models\" />
     <Folder Include="Areas\WebUI\Models\" />
   </ItemGroup>
 

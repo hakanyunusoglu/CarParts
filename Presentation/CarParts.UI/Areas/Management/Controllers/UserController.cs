@@ -13,5 +13,21 @@ namespace CarParts.UI.Areas.Management.Controllers
         {
             return View();
         }
+        public IActionResult SignIn()
+        {
+            return View();
+        }
+        public IActionResult SignOut()
+        {
+            return View();
+        }
+        public IActionResult SignUp()
+        {
+            return View();
+        }
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
     }
 }
