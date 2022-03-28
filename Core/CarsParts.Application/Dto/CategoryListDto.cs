@@ -9,6 +9,8 @@ namespace CarsParts.Application.Dto
 {
     public class CategoryListDto
     {
+        public int Id { get; set; }
+
         public string? Definition { get; set; }
         public string? Image { get; set; }
         public string? Slug { get; set; }

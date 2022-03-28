@@ -1,5 +1,7 @@
-﻿using CarParts.Domain.Entities;
+﻿using AutoMapper;
+using CarParts.Domain.Entities;
 using CarParts.Infrastructure.Tools;
+using CarsParts.Application.Dto;
 using CarsParts.Application.Enums;
 using CarsParts.Application.Repositories;
 using Microsoft.AspNetCore.Cors;
@@ -17,17 +19,26 @@ namespace CarParts.Api.Controllers
     {
         private readonly IRepository<AppUser> _repository;
         private readonly IRepository<AppRole> _repositorys;
+        private readonly IMapper _mapper;
 
-        public AuthController(IRepository<AppUser> repository, IRepository<AppRole> repositorys)
+
+
+        public AuthController(IRepository<AppUser> repository, IRepository<AppRole> repositorys, IMapper mapper)
         {
             _repository = repository;
             _repositorys = repositorys;
+            _mapper = mapper;
         }
+
+
+        public List<CarsParts.Application.Dto.AppUserDto> AppUserDto { get; private set; }
+
+     
         [HttpPost("[action]")]
        public  async Task<IActionResult> Register(AppUser user)
         {
-         var data=  _repository.CreateAsync(new AppUser
-            {
+         var data= _repository.CreateAsync(new AppUser
+         {
                 AppRoleId = (int)RoleType.User,
                
             });
@@ -39,6 +50,9 @@ namespace CarParts.Api.Controllers
         {
             var data = await _repository.GetAllAsync();
             return Ok(data);
+
+
+
         }
 
         [HttpPost("[action]")]

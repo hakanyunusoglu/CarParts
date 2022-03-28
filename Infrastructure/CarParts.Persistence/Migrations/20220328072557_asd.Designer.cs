@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CarParts.Persistence.Migrations
 {
     [DbContext(typeof(CarPartsDbContext))]
-    [Migration("20220326070615_asd")]
+    [Migration("20220328072557_asd")]
     partial class asd
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -8,7 +8,8 @@ namespace CarsParts.Application.Enums
 {
     public enum RoleType
     {
-        User=3,
+        User = 4,
+        Supplier=3,
         Seller=2,
         Admin=1
 

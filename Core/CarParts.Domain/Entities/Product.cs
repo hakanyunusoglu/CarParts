@@ -15,6 +15,7 @@ namespace CarParts.Domain.Entities
         public string? Details { get; set; }
         public string? Image { get; set; }
         public List<SellerList> SellerLists { get; set; }
+        public SellerList SellerList { get; set; }
 
         public Guid CategoryId { get; set; }
         public Category Category { get; set; }

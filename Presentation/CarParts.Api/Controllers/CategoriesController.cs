@@ -47,7 +47,7 @@ namespace CarParts.Api.Controllers
             return NoContent();
         }
         [HttpDelete]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             var deleteCategory = await _repository.GetByIdAsync(id);
             if(deleteCategory == null)
