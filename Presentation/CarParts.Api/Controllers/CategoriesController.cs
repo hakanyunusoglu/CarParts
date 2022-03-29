@@ -1,14 +1,19 @@
 ﻿using CarParts.Domain.Entities;
+using CarsParts.Application.Enums;
 using CarsParts.Application.Repositories;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarParts.Api.Controllers
 {
+    [EnableCors]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase
     {
+        
         private readonly IRepository<Category> _repository;
       
 
@@ -17,6 +22,7 @@ namespace CarParts.Api.Controllers
             _repository = repository;
             
         }
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> List()
         {
@@ -41,7 +47,7 @@ namespace CarParts.Api.Controllers
             return NoContent();
         }
         [HttpDelete]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             var deleteCategory = await _repository.GetByIdAsync(id);
             if(deleteCategory == null)

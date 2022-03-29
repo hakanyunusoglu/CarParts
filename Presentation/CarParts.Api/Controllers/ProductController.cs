@@ -2,22 +2,26 @@
 using CarParts.Domain.Entities;
 using CarsParts.Application.Dto;
 using CarsParts.Application.Repositories;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarParts.Api.Controllers
 {
+    [EnableCors]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
     {
         private readonly IRepository<Product> _repository;
         private readonly IMapper _mapper;
+        private readonly IRepository<SellerList> _repositorys;
 
-        public ProductController(IRepository<Product> repository, IMapper mapper)
+        public ProductController(IRepository<Product> repository, IMapper mapper, IRepository<SellerList> repositorys)
         {
             _repository = repository;
             _mapper = mapper;
+            _repositorys = repositorys;
         }
 
         [HttpGet]
@@ -33,6 +37,20 @@ namespace CarParts.Api.Controllers
                 var data = _repository.CreateAsync(model);
                 return Created("",data);
         }
+
+        [HttpGet("{id}")]
+        public IActionResult GetById(Guid id)
+        {
+            var productOne = _repository.GetByIdAsync(id);
+            if (productOne != null)
+            {
+                return Ok(productOne.Result);
+            }
+            return NotFound();
+            //return BadRequest(ModelState);
+        }
+
+
         [HttpPut]
         public async Task<IActionResult> Edit(Product model)
         {

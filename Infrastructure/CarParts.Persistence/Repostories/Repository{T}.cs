@@ -36,10 +36,12 @@ namespace CarParts.Persistence.Repository
             return await this.carPartsDbContext.Set<T>().AsNoTracking().SingleOrDefaultAsync(filter);
         }
 
-        public async Task<T?> GetByIdAsync(object id)
+        public async Task<T?> GetByIdAsync(Guid id)
         {
             return await this.carPartsDbContext.Set<T>().FindAsync(id);
         }
+
+      
 
         public async Task RemoveAsync(T entity)
         {
