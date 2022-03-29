@@ -56,6 +56,7 @@ namespace CarParts.UI
                     //);
                     endpoints.MapControllerRoute(
                      name: "Management",
+
                      pattern: "{area:exists}/{controller}/{action}/{id?}");
                     endpoints.MapControllerRoute(
                      name: "default",
