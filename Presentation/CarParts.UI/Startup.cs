@@ -1,4 +1,5 @@
 ﻿using CarParts.Persistence;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace CarParts.UI
 {
@@ -16,6 +17,19 @@ namespace CarParts.UI
             services.AddControllersWithViews();
             services.AddControllers().AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddPersistenceServices();
+            services.AddHttpClient();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddCookie(JwtBearerDefaults.AuthenticationScheme, opt=>
+            {
+                opt.LoginPath = "/User/SignIn";//Hangı Pathle Logın
+                opt.LogoutPath = "/User/SignIn";//
+                opt.AccessDeniedPath = "/User/AccessDenied";//Kullanıcın yetkısı yok ıse buraya yonlendırme
+                opt.Cookie.SameSite = SameSiteMode.Strict;//Sadece o domaınle kullansılsın
+                opt.Cookie.HttpOnly = true;//JavaScrıpten koruma
+                opt.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                //Neyle Geldıyse onla gıtsın.. Https>Https
+                opt.Cookie.Name = "CarPartsCookie";
+            });
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -38,6 +52,7 @@ namespace CarParts.UI
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
