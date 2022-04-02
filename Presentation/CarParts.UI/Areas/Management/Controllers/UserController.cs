@@ -56,7 +56,9 @@ namespace CarParts.UI.Areas.Management.Controllers
                     //     {
 
                     //     }
-                    ClaimsIdentity identity = new ClaimsIdentity(token.Claims,JwtBearerDefaults.AuthenticationScheme);
+                    var claims = token.Claims.ToList();
+                    claims.Add(new Claim("accessToken", tokenModel?.Token == null ? "" : tokenModel.Token));
+                    ClaimsIdentity identity = new ClaimsIdentity(claims,JwtBearerDefaults.AuthenticationScheme);
                     var authProps = new AuthenticationProperties
                     {
                         ExpiresUtc = DateTimeOffset.UtcNow,
