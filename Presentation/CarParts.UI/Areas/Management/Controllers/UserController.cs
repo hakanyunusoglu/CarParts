@@ -61,7 +61,7 @@ namespace CarParts.UI.Areas.Management.Controllers
                     ClaimsIdentity identity = new ClaimsIdentity(claims,JwtBearerDefaults.AuthenticationScheme);
                     var authProps = new AuthenticationProperties
                     {
-                        ExpiresUtc = DateTimeOffset.UtcNow,
+                        ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30),
                         IsPersistent = true,
                     };
                    await HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), authProps);
