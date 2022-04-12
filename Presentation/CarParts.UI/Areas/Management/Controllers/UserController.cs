@@ -65,7 +65,21 @@ namespace CarParts.UI.Areas.Management.Controllers
                         IsPersistent = true,
                     };
                    await HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), authProps);
-                    return RedirectToAction("Index", "Home");
+                    string myRole = User.FindFirstValue(ClaimTypes.Role);
+                    switch (myRole)
+                    {
+                        case "Admin":
+                            return RedirectToAction("Index", "Admin");
+                            break;
+                        case "Seller":
+                            return RedirectToAction("Index", "Seller");
+                            break;
+                        case "Supplier":
+                            return RedirectToAction("Index", "Supplier");
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 else
                 {

@@ -1,11 +1,16 @@
 ﻿using CarParts.UI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace CarParts.UI.Areas.Management.Controllers
 {
-    //[Authorize(Roles ="Admin")]
+    [Area("Management")]
+
+    [Authorize(Roles ="Admin")]
     public class CategoryController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
@@ -14,6 +19,10 @@ namespace CarParts.UI.Areas.Management.Controllers
         {
             _httpClientFactory = httpClientFactory;
         }
+
+
+        
+
         [HttpGet]
         public  async Task<IActionResult> ListCategory()
         {
@@ -23,11 +32,19 @@ namespace CarParts.UI.Areas.Management.Controllers
          var response= await   client.GetAsync("https://localhost:7076/api/Categories");
             if (response.IsSuccessStatusCode)
             {
-                var jsonString= await response.Content.ReadAsStringAsync();
-                  var list= JsonSerializer.Deserialize<List<CategoryListResponseModel>>(jsonString,new JsonSerializerOptions
+
+                var options = new JsonSerializerOptions
                 {
-                    PropertyNamingPolicy=JsonNamingPolicy.CamelCase,
-                });
+                  PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                };
+
+                //var options = new JsonSerializerOptions();
+                //options.Converters.Add(new JsonStringEnumConverter());
+                //options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;,
+                //options.PropertyNamingPolicy = new UpperCaseNamingPolicy()
+
+                var jsonString = await response.Content.ReadAsStringAsync();
+                  var list= JsonSerializer.Deserialize<List<CategoryListResponseModel>>(jsonString,options);
                 return View(list);
             }
             else 

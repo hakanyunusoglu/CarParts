@@ -48,30 +48,47 @@
                     </div>
                     
                     <table class="table table-ecommerce-simple table-striped mb-0" id="datatable-ecommerce-list" style="min-width: 550px;">
-                        
                         <thead>
-                            @foreach(var item in Model)
+												<tr role="row">
+ 
+ 
+  <th width="28%" class="sorting" tabindex="0" aria-controls="datatable-ecommerce-list" rowspan="1" colspan="1" aria-label="Ad: sütunu artan şekilde sıralamak için etkinleştirin" style="width: 382.906px;">
+    <font style="vertical-align: inherit;">
+      <font style="vertical-align: inherit;">İsim</font>
+    </font>
+  </th>
+  <th width="23%" class="sorting" tabindex="0" aria-controls="datatable-ecommerce-list" rowspan="1" colspan="1" aria-label="Slug: sütunu artan şekilde sıralamak için etkinleştirin" style="width: 309.359px;">
+    <font style="vertical-align: inherit;">
+      <font style="vertical-align: inherit;">sümüklü böcek</font>
+    </font>
+  </th>
+  <th width="38%" class="sorting" tabindex="0" aria-controls="datatable-ecommerce-list" rowspan="1" colspan="1" aria-label="Ana Kategori: sütunu artan şekilde sıralamak için etkinleştirin" style="width: 530.031px;">
+    <font style="vertical-align: inherit;">
+      <font style="vertical-align: inherit;">aile kategorisi</font>
+    </font>
+  </th>
+</tr>
+											</thead>
+
+
+
+                       
+                        
+                        <tbody>
+                             @foreach(var item in Model)
                             {
                                 
                             
                             <tr>
-                                <th width="3%"><input type="checkbox" name="select-all" class="select-all checkbox-style-1 p-relative top-2" value="" /></th>
-                                <th width="8%">@item.Id</th>
-                                <th width="28%">@item.Image</th>
-                                <th width="23%">@item.Slug</th>
-                                <th width="38%">@item.Parent</th>
+                                  <td><a href="ecommerce-category-form.html"><strong>@item.Definition</strong></a></td>
+                                 <td width="23%">@item.Slug</td>
+                                 <td width="38%">@item.Parent</td>
                             </tr>
                             }
-                        </thead>
-                        
-                        <tbody>
-                            <tr>
-                                <td width="30"><input type="checkbox" name="checkboxRow1" class="checkbox-style-1 p-relative top-2" value="" /></td>
-                                <td><a href="ecommerce-category-form.html"><strong>191</strong></a></td>
-                                <td><a href="ecommerce-category-form.html"><strong>Category Name Example</strong></a></td>
-                                <td>category-name-example</td>
-                                <td>Parent Category Name</td>
-                            </tr>
+
+
+
+ 
                         </tbody>
                     </table>
                     <hr class="solid mt-5 opacity-4">
