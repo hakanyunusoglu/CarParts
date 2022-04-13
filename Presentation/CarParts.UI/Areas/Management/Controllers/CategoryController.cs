@@ -61,9 +61,14 @@ namespace CarParts.UI.Areas.Management.Controllers
         {
             return View();
         }
-        public IActionResult DeleteCategory()
+        public async Task<IActionResult> DeleteCategory(Guid id)
         {
-            return View();
+            HttpClient client = new HttpClient();
+            var token = User.Claims.SingleOrDefault(x => x.Type == "accessToken")?.Value;
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            await client.DeleteAsync("https://localhost:7076/api/Categories?id="+id);
+            return RedirectToAction("Index", "Home");
+          
         }
     }
 }
