@@ -61,15 +61,21 @@ namespace CarParts.Api.Controllers
             var data = await _repository.GetByFilterAsync(x => x.Username == user.Username);
             if (data != null)
             {
+                if (data.Password==user.Password)
+                {
+                    user.Username = data?.Username;
+                    var role = await _repositorys.GetByFilterAsync(x => x.ID == data.AppRoleId);
 
-                user.Username = data?.Username;
-                var role = await _repositorys.GetByFilterAsync(x => x.ID == data.AppRoleId);
-                user.AppRole.ID = (int)data?.AppRoleId;
 
-                //Burada bir sıkıntı var agalarım
-                var token = JwtTokenGenerator.GenerateToken(data,role);
+                    user.AppRole.ID = (int)data?.AppRoleId;
 
-                return Created(string.Empty, token);
+                    //Burada bir sıkıntı var agalarım
+                    var token = JwtTokenGenerator.GenerateToken(data, role);
+
+                    return Created(string.Empty, token);
+                }
+                return NotFound();
+
             }
             else
             {
