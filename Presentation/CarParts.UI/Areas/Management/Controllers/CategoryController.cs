@@ -1,8 +1,10 @@
 ﻿using CarParts.UI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -44,7 +46,7 @@ namespace CarParts.UI.Areas.Management.Controllers
                 //options.PropertyNamingPolicy = new UpperCaseNamingPolicy()
 
                 var jsonString = await response.Content.ReadAsStringAsync();
-                  var list= JsonSerializer.Deserialize<List<CategoryListResponseModel>>(jsonString,options);
+                  var list= System.Text.Json.JsonSerializer.Deserialize<List<CategoryListResponseModel>>(jsonString,options);
                 return View(list);
             }
             else 
@@ -53,8 +55,23 @@ namespace CarParts.UI.Areas.Management.Controllers
             }
             
         }
+        [HttpGet]
         public IActionResult NewCategory()
         {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> NewCategory(CategoryListResponseModel myCat)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var token = User.Claims.SingleOrDefault(x => x.Type == "accessToken")?.Value;
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            Guid ids = Guid.NewGuid();
+            myCat.Id = ids.ToString();
+            var stringContent = new StringContent(JsonConvert.SerializeObject(myCat), Encoding.UTF8, "application/json");
+            var result = await client.PostAsync("https://localhost:7076/api/Categories",stringContent);
+
             return View();
         }
         public IActionResult UpdateCategory()
