@@ -9,5 +9,10 @@ namespace CarParts.UI.Areas.WebUI.Controllers
         {
             return View();
         }
+
+        public IActionResult Blog()
+        {
+            return View();
+        }
     }
 }
