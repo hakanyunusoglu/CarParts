@@ -77,6 +77,10 @@ namespace CarParts.UI
 
                      pattern: "{area:exists}/{controller}/{action}/{id?}");
                     endpoints.MapControllerRoute(
+                   name: "WebUI",
+
+                   pattern: "{area:exists}/{controller}/{action}/{id?}");
+                    endpoints.MapControllerRoute(
                      name: "default",
                      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                 });

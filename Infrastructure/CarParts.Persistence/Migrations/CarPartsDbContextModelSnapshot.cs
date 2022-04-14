@@ -122,28 +122,48 @@ namespace CarParts.Persistence.Migrations
                     b.ToTable("AppUserPhones");
                 });
 
-            modelBuilder.Entity("CarParts.Domain.Entities.Basked", b =>
+            modelBuilder.Entity("CarParts.Domain.Entities.Cart", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("AppUserId")
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("userID")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Carts");
+                });
+
+            modelBuilder.Entity("CarParts.Domain.Entities.CartItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CartID")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("OrderId")
+                    b.Property<Guid>("ProductID")
                         .HasColumnType("uuid");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("CartID");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("ProductID");
 
-                    b.ToTable("Baskeds");
+                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("CarParts.Domain.Entities.Category", b =>
@@ -181,18 +201,40 @@ namespace CarParts.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("AppUserId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("Address")
+                        .HasColumnType("text");
+
+                    b.Property<string>("City")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("numeric");
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("text");
+
+                    b.Property<string>("OrderNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("userID")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("userID");
 
                     b.ToTable("Orders");
                 });
@@ -203,23 +245,26 @@ namespace CarParts.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("Amount")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("OrderId")
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("orderID")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("SellerListId")
+                    b.Property<Guid>("productID")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("orderID");
 
-                    b.HasIndex("SellerListId");
+                    b.HasIndex("productID");
 
                     b.ToTable("OrderDetails");
                 });
@@ -327,53 +372,53 @@ namespace CarParts.Persistence.Migrations
                     b.Navigation("AppUser");
                 });
 
-            modelBuilder.Entity("CarParts.Domain.Entities.Basked", b =>
+            modelBuilder.Entity("CarParts.Domain.Entities.CartItem", b =>
                 {
-                    b.HasOne("CarParts.Domain.Entities.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId")
+                    b.HasOne("CarParts.Domain.Entities.Cart", "Cart")
+                        .WithMany("CartItemList")
+                        .HasForeignKey("CartID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CarParts.Domain.Entities.Order", "Order")
+                    b.HasOne("CarParts.Domain.Entities.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("OrderId")
+                        .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AppUser");
+                    b.Navigation("Cart");
 
-                    b.Navigation("Order");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("CarParts.Domain.Entities.Order", b =>
                 {
-                    b.HasOne("CarParts.Domain.Entities.AppUser", "AppUser")
+                    b.HasOne("CarParts.Domain.Entities.AppUser", "User")
                         .WithMany()
-                        .HasForeignKey("AppUserId")
+                        .HasForeignKey("userID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AppUser");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CarParts.Domain.Entities.OrderDetails", b =>
                 {
                     b.HasOne("CarParts.Domain.Entities.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("orderID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CarParts.Domain.Entities.SellerList", "SellerList")
+                    b.HasOne("CarParts.Domain.Entities.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("SellerListId")
+                        .HasForeignKey("productID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Order");
 
-                    b.Navigation("SellerList");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("CarParts.Domain.Entities.Product", b =>
@@ -422,9 +467,19 @@ namespace CarParts.Persistence.Migrations
                     b.Navigation("Phones");
                 });
 
+            modelBuilder.Entity("CarParts.Domain.Entities.Cart", b =>
+                {
+                    b.Navigation("CartItemList");
+                });
+
             modelBuilder.Entity("CarParts.Domain.Entities.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("CarParts.Domain.Entities.Order", b =>
+                {
+                    b.Navigation("OrderDetails");
                 });
 
             modelBuilder.Entity("CarParts.Domain.Entities.Product", b =>

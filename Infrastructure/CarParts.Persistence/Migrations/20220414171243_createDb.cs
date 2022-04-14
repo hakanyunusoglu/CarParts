@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CarParts.Persistence.Migrations
 {
-    public partial class asd : Migration
+    public partial class createDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,6 +21,19 @@ namespace CarParts.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AppRoles", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Carts",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    userID = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Carts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -135,17 +148,51 @@ namespace CarParts.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    AppUserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    TotalPrice = table.Column<decimal>(type: "numeric", nullable: false),
+                    OrderNumber = table.Column<string>(type: "text", nullable: false),
+                    userID = table.Column<Guid>(type: "uuid", nullable: false),
+                    FirstName = table.Column<string>(type: "text", nullable: true),
+                    LastName = table.Column<string>(type: "text", nullable: true),
+                    Address = table.Column<string>(type: "text", nullable: true),
+                    City = table.Column<string>(type: "text", nullable: true),
+                    Phone = table.Column<string>(type: "text", nullable: true),
+                    Note = table.Column<string>(type: "text", nullable: true),
+                    Email = table.Column<string>(type: "text", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_AppUsers_AppUserId",
-                        column: x => x.AppUserId,
+                        name: "FK_Orders_AppUsers_userID",
+                        column: x => x.userID,
                         principalTable: "AppUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CartItems",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ProductID = table.Column<Guid>(type: "uuid", nullable: false),
+                    CartID = table.Column<Guid>(type: "uuid", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CartItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CartItems_Carts_CartID",
+                        column: x => x.CartID,
+                        principalTable: "Carts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CartItems_Products_ProductID",
+                        column: x => x.ProductID,
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -159,6 +206,7 @@ namespace CarParts.Persistence.Migrations
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     Stok = table.Column<int>(type: "integer", nullable: false),
                     AppUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ProductId1 = table.Column<Guid>(type: "uuid", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -176,32 +224,11 @@ namespace CarParts.Persistence.Migrations
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Baskeds",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    OrderId = table.Column<Guid>(type: "uuid", nullable: false),
-                    AppUserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Baskeds", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Baskeds_AppUsers_AppUserId",
-                        column: x => x.AppUserId,
-                        principalTable: "AppUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Baskeds_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_SellerLists_Products_ProductId1",
+                        column: x => x.ProductId1,
+                        principalTable: "Products",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -209,24 +236,25 @@ namespace CarParts.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    OrderId = table.Column<Guid>(type: "uuid", nullable: false),
-                    SellerListId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Amount = table.Column<int>(type: "integer", nullable: false),
+                    orderID = table.Column<Guid>(type: "uuid", nullable: false),
+                    productID = table.Column<Guid>(type: "uuid", nullable: false),
+                    Price = table.Column<decimal>(type: "numeric", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OrderDetails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderDetails_Orders_OrderId",
-                        column: x => x.OrderId,
+                        name: "FK_OrderDetails_Orders_orderID",
+                        column: x => x.orderID,
                         principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderDetails_SellerLists_SellerListId",
-                        column: x => x.SellerListId,
-                        principalTable: "SellerLists",
+                        name: "FK_OrderDetails_Products_productID",
+                        column: x => x.productID,
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -247,29 +275,29 @@ namespace CarParts.Persistence.Migrations
                 column: "AppRoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Baskeds_AppUserId",
-                table: "Baskeds",
-                column: "AppUserId");
+                name: "IX_CartItems_CartID",
+                table: "CartItems",
+                column: "CartID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Baskeds_OrderId",
-                table: "Baskeds",
-                column: "OrderId");
+                name: "IX_CartItems_ProductID",
+                table: "CartItems",
+                column: "ProductID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderDetails_OrderId",
+                name: "IX_OrderDetails_orderID",
                 table: "OrderDetails",
-                column: "OrderId");
+                column: "orderID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderDetails_SellerListId",
+                name: "IX_OrderDetails_productID",
                 table: "OrderDetails",
-                column: "SellerListId");
+                column: "productID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_AppUserId",
+                name: "IX_Orders_userID",
                 table: "Orders",
-                column: "AppUserId");
+                column: "userID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",
@@ -285,6 +313,12 @@ namespace CarParts.Persistence.Migrations
                 name: "IX_SellerLists_ProductId",
                 table: "SellerLists",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SellerLists_ProductId1",
+                table: "SellerLists",
+                column: "ProductId1",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -296,28 +330,31 @@ namespace CarParts.Persistence.Migrations
                 name: "AppUserPhones");
 
             migrationBuilder.DropTable(
-                name: "Baskeds");
+                name: "CartItems");
 
             migrationBuilder.DropTable(
                 name: "OrderDetails");
 
             migrationBuilder.DropTable(
-                name: "Orders");
-
-            migrationBuilder.DropTable(
                 name: "SellerLists");
 
             migrationBuilder.DropTable(
-                name: "AppUsers");
+                name: "Carts");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "AppRoles");
+                name: "AppUsers");
 
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "AppRoles");
         }
     }
 }

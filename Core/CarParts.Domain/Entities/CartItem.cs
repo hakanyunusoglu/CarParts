@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 
 namespace CarParts.Domain.Entities
 {
-    public class OrderDetails : BaseEntity
+    public class CartItem : BaseEntity
     {
-        public Guid orderID { get; set; }
-        public Order Order { get; set; }
-        public Guid productID { get; set; }
         public Product Product { get; set; }
-        public decimal Price { get; set; }
+        public Guid ProductID { get; set; }
+        public Cart Cart { get; set; }
+        public Guid CartID { get; set; }
         public int Quantity { get; set; }
     }
 }
