@@ -59,6 +59,10 @@ namespace CarParts.UI.Areas.Management.Controllers
 
             Guid ids = Guid.NewGuid();
             myCat.Id = ids;
+            myCat.Image = "image.jpg";
+            myCat.Description = "Açıklama";
+            myCat.Slug = "slug";
+
             var stringContent = new StringContent(JsonConvert.SerializeObject(myCat), Encoding.UTF8, "application/json");
             var result = await client.PostAsync("https://localhost:7076/api/Product", stringContent);
 

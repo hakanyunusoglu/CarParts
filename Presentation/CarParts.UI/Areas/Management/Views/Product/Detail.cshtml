@@ -1,4 +1,6 @@
-﻿@{
+﻿@model CarParts.UI.Models.ProductModel
+
+@{
     ViewData["Title"] = "NewProduct";
     Layout = "~/Areas/Management/Views/Shared/_Layout.cshtml";
 }
@@ -19,13 +21,13 @@
                             <div class="form-group row align-items-center pb-3">
                                 <label class="col-lg-5 col-xl-3 control-label text-lg-end mb-0">Product Name</label>
                                 <div class="col-lg-7 col-xl-6">
-                                    <input type="text" class="form-control form-control-modern" name="Name" value="" required />
+                                    <input type="text" class="form-control form-control-modern" name="Name" value="@Model.Name" required />
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-lg-5 col-xl-3 control-label text-lg-end pt-2 mt-1 mb-0">Product Description</label>
                                 <div class="col-lg-7 col-xl-6">
-                                    <textarea class="form-control form-control-modern" name="Description" rows="6"></textarea>
+                                    <textarea class="form-control form-control-modern" name="Description" value="@Model.Description" rows="6"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -53,19 +55,19 @@
                                     <div class="form-group row align-items-center pb-3">
                                         <label class="col-lg-5 col-xl-3 control-label text-lg-end mb-0">Price</label>
                                         <div class="col-lg-7 col-xl-6">
-                                            <input type="text" class="form-control form-control-modern" name="Price" value="" required />
+                                            <input type="text" class="form-control form-control-modern" name="Price" value="@Model.Price" required />
                                         </div>
                                     </div>
                                       <div class="form-group row align-items-center pb-3">
                                         <label class="col-lg-5 col-xl-3 control-label text-lg-end mb-0">CategoryId</label>
                                         <div class="col-lg-7 col-xl-6">
-                                            <input type="text" class="form-control form-control-modern" name="CategoryId" value="" required />
+                                            <input type="text" class="form-control form-control-modern" name="CategoryId" value="@Model.CategoryId" required />
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center pb-3">
                                         <label class="col-lg-5 col-xl-3 control-label text-lg-end mb-0">Stok</label>
                                         <div class="col-lg-7 col-xl-6">
-                                            <input type="text" class="form-control form-control-modern" name="Stok" value="" required />
+                                            <input type="text" class="form-control form-control-modern" name="Stok" value="@Model.Stok" required />
                                         </div>
                                     </div>
                                 </div>
@@ -73,7 +75,7 @@
                                     <div class="form-group row align-items-center pb-3">
                                         <label class="col-lg-5 col-xl-3 control-label text-lg-end mb-0">SKU</label>
                                         <div class="col-lg-7 col-xl-6">
-                                            <input type="text" class="form-control form-control-modern" name="Barkod" value="" required />
+                                            <input type="text" class="form-control form-control-modern" name="Barkod" value="@Model.Barkod" required />
                                         </div>
                                     </div>
                                 </div>
@@ -84,15 +86,7 @@
             </section>
         </div>
     </div>
-    <div class="row action-buttons">
-        <div class="col-12 col-md-auto">
-            <button type="submit" class="submit-button btn btn-primary btn-px-4 py-3 d-flex align-items-center font-weight-semibold line-height-1" data-loading-text="Loading...">
-                <i class="bx bx-save text-4 me-2"></i> Save Product
-            </button>
-        </div>
-        
-       
-    </div>
+  
 </form>
 
 

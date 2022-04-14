@@ -6,6 +6,8 @@
 
 
         public string? Name { get; set; }
+        public decimal? Price{ get; set; }
+        public int? Stok{ get; set; }
         public string? Barkod { get; set; }
         public string? Image { get; set; }
         public string? Details { get; set; }
