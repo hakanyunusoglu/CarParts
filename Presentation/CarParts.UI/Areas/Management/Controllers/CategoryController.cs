@@ -21,10 +21,6 @@ namespace CarParts.UI.Areas.Management.Controllers
         {
             _httpClientFactory = httpClientFactory;
         }
-
-
-        
-
         [HttpGet]
         public  async Task<IActionResult> ListCategory()
         {
@@ -56,12 +52,6 @@ namespace CarParts.UI.Areas.Management.Controllers
             
         }
         [HttpGet]
-        public IActionResult NewCategory()
-        {
-            return View();
-        }
-
-        [HttpGet]
         public async Task<IActionResult> DetailAsync(Guid id)
         {
             var client = _httpClientFactory.CreateClient();
@@ -70,19 +60,25 @@ namespace CarParts.UI.Areas.Management.Controllers
             var result = await client.GetAsync("https://localhost:7076/api/Categories/"+id);
             if (result.IsSuccessStatusCode)
             {
+
                 var options = new JsonSerializerOptions
                 {
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                 };
-
                 var jsonString = await result.Content.ReadAsStringAsync();
-                var oneCategory = System.Text.Json.JsonSerializer.Deserialize<CategoryListResponseModel>(jsonString,options);
+                var oneCategory = System.Text.Json.JsonSerializer.Deserialize<CategoryListResponseModel>(jsonString);
                 return View(oneCategory);
             }
             else
             {
                 return RedirectToAction("Index", "Home");
             }
+
+        }
+        [HttpGet]
+        public IActionResult NewCategory()
+        {
+            return View();
         }
         [HttpPost]
         public async Task<IActionResult> NewCategory(CategoryListResponseModel myCat)
@@ -98,8 +94,41 @@ namespace CarParts.UI.Areas.Management.Controllers
 
             return View();
         }
-        public IActionResult UpdateCategory()
+
+        public async Task<IActionResult> UpdateCategory(Guid id)
         {
+            var client = _httpClientFactory.CreateClient();
+            var token = User.Claims.SingleOrDefault(x => x.Type == "accessToken")?.Value;
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            var result = await client.GetAsync("https://localhost:7076/api/Categories/" + id);
+            if (result.IsSuccessStatusCode)
+            {
+
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                };
+                var jsonString = await result.Content.ReadAsStringAsync();
+                var oneCategory = System.Text.Json.JsonSerializer.Deserialize<CategoryListResponseModel>(jsonString);
+                return View(oneCategory);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateCategory(CategoryListResponseModel myCat)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var token = User.Claims.SingleOrDefault(x => x.Type == "accessToken")?.Value;
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            Guid ids = Guid.NewGuid();
+            myCat.Id = ids;
+            var stringContent = new StringContent(JsonConvert.SerializeObject(myCat), Encoding.UTF8, "application/json");
+            var result = await client.PutAsync("https://localhost:7076/api/Categories", stringContent);
+
             return View();
         }
         public async Task<IActionResult> DeleteCategory(Guid id)

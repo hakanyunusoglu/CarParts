@@ -78,9 +78,8 @@
                              @foreach(var item in Model)
                             {
                                 
-                            
                             <tr>
-                                  <td><a href="/Management/Category/Detail/@item.Id"><strong>@item.Definition</strong></a></td>
+                                 <td> <a href="/Management/Category/DetailAsync/@item.Id" class="btn btn-danger">Detay</a></td>
                                  <td width="23%">@item.Slug</td>
                                  <td width="38%">@item.Parent</td>
                                  <td> <a href="/Management/Category/DeleteCategory/@item.Id" class="btn btn-danger">Sil</a></td>
