@@ -93,6 +93,11 @@ namespace CarParts.UI.Areas.Management.Controllers
         }
         //Burada Halay Cekıyoruz..
         //Kankam
+        /// <summary>
+        /// C
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IActionResult> UpdateProduct(Guid id)
         {
             var client = _httpClientFactory.CreateClient();
