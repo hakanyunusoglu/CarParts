@@ -9,14 +9,16 @@ namespace CarParts.Domain.Entities
 {
     public class Order : BaseEntity
     {
-        public Guid AppUserId { get; set; }
-        public AppUser AppUser { get; set; }
-        public decimal TotalPrice { get; set; }
-
-
-        public Order()
-        {
-            AppUser = new AppUser();
-        }
+        public string OrderNumber { get; set; }
+        public AppUser User { get; set; }
+        public Guid userID { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? Address { get; set; }
+        public string? City { get; set; }
+        public string? Phone { get; set; }
+        public string? Note { get; set; }
+        public string? Email { get; set; }
+        public List<OrderDetails> OrderDetails { get; set; }
     }
 }

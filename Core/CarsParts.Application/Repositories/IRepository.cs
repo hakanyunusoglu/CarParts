@@ -12,7 +12,6 @@ namespace CarsParts.Application.Repositories
         Task<List<T>> GetAllAsync();
         Task<T?> GetByIdAsync(Guid id);
         Task<T?> GetByFilterAsync(Expression<Func<T, bool>> filter);
-
         Task CreateAsync(T entity);
         Task UpdateAsync(T entity);
         Task RemoveAsync(T entity);
