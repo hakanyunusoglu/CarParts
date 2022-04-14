@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CarParts.Persistence.Migrations
 {
     [DbContext(typeof(CarPartsDbContext))]
-    [Migration("20220328072557_asd")]
+    [Migration("20220414200204_asd")]
     partial class asd
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -253,6 +253,12 @@ namespace CarParts.Persistence.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<int?>("Stok")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -392,7 +398,7 @@ namespace CarParts.Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("CarParts.Domain.Entities.Product", "Product")
-                        .WithMany("SellerLists")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -417,11 +423,6 @@ namespace CarParts.Persistence.Migrations
             modelBuilder.Entity("CarParts.Domain.Entities.Category", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("CarParts.Domain.Entities.Product", b =>
-                {
-                    b.Navigation("SellerLists");
                 });
 #pragma warning restore 612, 618
         }

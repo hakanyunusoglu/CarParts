@@ -68,10 +68,8 @@ namespace CarParts.Api.Controllers
 
 
                     user.AppRole.ID = (int)data?.AppRoleId;
-
-                    //Burada bir sıkıntı var agalarım
                     var token = JwtTokenGenerator.GenerateToken(data, role);
-
+                    //Burada token oluşturuluyor.
                     return Created(string.Empty, token);
                 }
                 return NotFound();

@@ -33,7 +33,7 @@ namespace CarParts.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(Guid id)
         {
-            var category = _repository.GetByIdAsync(id);
+            var category = _repository.GetByIdAsync(id).Result;
             if (category != null)
             {
                 return Ok(category);

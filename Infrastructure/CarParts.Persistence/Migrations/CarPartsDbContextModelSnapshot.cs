@@ -251,6 +251,12 @@ namespace CarParts.Persistence.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<int?>("Stok")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -276,9 +282,6 @@ namespace CarParts.Persistence.Migrations
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("ProductId1")
-                        .HasColumnType("uuid");
-
                     b.Property<int>("Stok")
                         .HasColumnType("integer");
 
@@ -287,9 +290,6 @@ namespace CarParts.Persistence.Migrations
                     b.HasIndex("AppUserId");
 
                     b.HasIndex("ProductId");
-
-                    b.HasIndex("ProductId1")
-                        .IsUnique();
 
                     b.ToTable("SellerLists");
                 });
@@ -396,14 +396,10 @@ namespace CarParts.Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("CarParts.Domain.Entities.Product", "Product")
-                        .WithMany("SellerLists")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("CarParts.Domain.Entities.Product", null)
-                        .WithOne("SellerList")
-                        .HasForeignKey("CarParts.Domain.Entities.SellerList", "ProductId1");
 
                     b.Navigation("AppUser");
 
@@ -425,14 +421,6 @@ namespace CarParts.Persistence.Migrations
             modelBuilder.Entity("CarParts.Domain.Entities.Category", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("CarParts.Domain.Entities.Product", b =>
-                {
-                    b.Navigation("SellerList")
-                        .IsRequired();
-
-                    b.Navigation("SellerLists");
                 });
 #pragma warning restore 612, 618
         }
