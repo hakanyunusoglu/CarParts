@@ -3,6 +3,7 @@ using System;
 using CarParts.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CarParts.Persistence.Migrations
 {
     [DbContext(typeof(CarPartsDbContext))]
-    partial class CarPartsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220404113411_testDb")]
+    partial class testDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,6 +38,28 @@ namespace CarParts.Persistence.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("AppRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Definition = "Admin"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            Definition = "Seller"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            Definition = "Supplier"
+                        },
+                        new
+                        {
+                            ID = 4,
+                            Definition = "User"
+                        });
                 });
 
             modelBuilder.Entity("CarParts.Domain.Entities.AppUser", b =>

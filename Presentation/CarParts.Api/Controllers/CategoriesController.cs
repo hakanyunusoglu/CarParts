@@ -29,6 +29,18 @@ namespace CarParts.Api.Controllers
             var data = await _repository.GetAllAsync();
             return Ok(data);
         }
+
+        [HttpGet("{id}")]
+        public IActionResult GetById(Guid id)
+        {
+            var category = _repository.GetByIdAsync(id);
+            if (category != null)
+            {
+                return Ok(category);
+            }
+            return NoContent();
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(Category category)
         {
