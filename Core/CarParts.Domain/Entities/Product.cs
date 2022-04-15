@@ -14,15 +14,14 @@ namespace CarParts.Domain.Entities
         public string? Description { get; set; }
         public string? Details { get; set; }
         public string? Image { get; set; }
-        public List<SellerList> SellerLists { get; set; }
-        public SellerList SellerList { get; set; }
+        public decimal? Price { get; set; }
+        public int? Stok { get; set; }
 
         public Guid CategoryId { get; set; }
         public Category Category { get; set; }
         public Product()
         {
-            SellerLists = new List<SellerList>();
-            Category = new Category();
+             Category = new Category();
         }
     }
 }

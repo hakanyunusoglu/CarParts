@@ -36,10 +36,7 @@ namespace CarParts.UI.Areas.Management.Controllers
                   PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                 };
 
-                //var options = new JsonSerializerOptions();
-                //options.Converters.Add(new JsonStringEnumConverter());
-                //options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;,
-                //options.PropertyNamingPolicy = new UpperCaseNamingPolicy()
+               
 
                 var jsonString = await response.Content.ReadAsStringAsync();
                   var list= System.Text.Json.JsonSerializer.Deserialize<List<CategoryListResponseModel>>(jsonString,options);
@@ -52,14 +49,30 @@ namespace CarParts.UI.Areas.Management.Controllers
             
         }
         [HttpGet]
+<<<<<<< HEAD
         public async Task<IActionResult> DetailAsync(Guid id)
+=======
+        public IActionResult NewCategory()
         {
-            var client = _httpClientFactory.CreateClient();
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DetailAsync(string id)
+>>>>>>> origin/JwtDev
+        {
+           
+            CategoryListResponseModel cat = new CategoryListResponseModel();
+            HttpClient client = new HttpClient();
             var token = User.Claims.SingleOrDefault(x => x.Type == "accessToken")?.Value;
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-            var result = await client.GetAsync("https://localhost:7076/api/Categories/"+id);
+            client.BaseAddress = new Uri("https://localhost:7076/api/");
+            var respomseTalk = client.GetAsync("Categories" + "/"+id);
+            respomseTalk.Wait();
+            var result = respomseTalk.Result;
             if (result.IsSuccessStatusCode)
             {
+<<<<<<< HEAD
 
                 var options = new JsonSerializerOptions
                 {
@@ -68,16 +81,25 @@ namespace CarParts.UI.Areas.Management.Controllers
                 var jsonString = await result.Content.ReadAsStringAsync();
                 var oneCategory = System.Text.Json.JsonSerializer.Deserialize<CategoryListResponseModel>(jsonString);
                 return View(oneCategory);
+=======
+                var readTask = result.Content.ReadAsStringAsync();
+                readTask.Wait();
+                var davetiyes = readTask.Result;
+                cat = JsonConvert.DeserializeObject<CategoryListResponseModel>(davetiyes);
+>>>>>>> origin/JwtDev
             }
-            else
+            if (cat != null)
             {
-                return RedirectToAction("Index", "Home");
+                return View(cat);
             }
+<<<<<<< HEAD
 
         }
         [HttpGet]
         public IActionResult NewCategory()
         {
+=======
+>>>>>>> origin/JwtDev
             return View();
         }
         [HttpPost]
@@ -88,7 +110,7 @@ namespace CarParts.UI.Areas.Management.Controllers
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
             Guid ids = Guid.NewGuid();
-            myCat.Id = ids;
+            myCat.Id = ids.ToString();
             var stringContent = new StringContent(JsonConvert.SerializeObject(myCat), Encoding.UTF8, "application/json");
             var result = await client.PostAsync("https://localhost:7076/api/Categories",stringContent);
 

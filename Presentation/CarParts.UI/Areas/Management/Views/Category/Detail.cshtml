@@ -1,17 +1,15 @@
-﻿@model List<CarParts.UI.Models.CategoryListResponseModel>
+﻿@model CarParts.UI.Models.CategoryListResponseModel
 @{
     ViewData["Title"] = "ListCategory";
     Layout = "~/Areas/Management/Views/Shared/_Layout.cshtml";
 }    
 
-
-
 <section role="main" class="content-body content-body-modern mt-0">
-					
+					 
 
 					<!-- start: page -->
 					<form class="ecommerce-form action-buttons-fixed" action="#" method="post">
-						
+						 
 						<div class="row">
 							<div class="col">
 								<section class="card card-modern card-big-info">
@@ -26,19 +24,19 @@
 												<div class="form-group row align-items-center mb-3">
 													<label class="col-lg-5 col-xl-3 control-label text-lg-end mb-0">Category Name</label>
 													<div class="col-lg-7 col-xl-6">
-														<input type="text" class="form-control form-control-modern" name="Definition" value="" required />
+														<input type="text" class="form-control form-control-modern" name="Definition" value="@Model.Description" required />
 													</div>
 												</div>
 												<div class="form-group row align-items-center mb-3">
 													<label class="col-lg-5 col-xl-3 control-label text-lg-end mb-0">Slug</label>
 													<div class="col-lg-7 col-xl-6">
-														<input type="text" class="form-control form-control-modern" name="Slug" value="" required />
+														<input type="text" class="form-control form-control-modern" name="Slug" value="@Model.Slug" required />
 													</div>
 												</div>
 												<div class="form-group row align-items-center mb-3">
 													<label class="col-lg-5 col-xl-3 control-label text-lg-end mb-0">Parent Category</label>
 													<div class="col-lg-7 col-xl-6">
-														<input type="text" class="form-control form-control-modern" name="Parent" value="" />
+														<input type="text" class="form-control form-control-modern" name="Parent" value="@Model.Parent" />
 													</div>
 												</div>
 												<div class="form-group row align-items-center mb-3">
@@ -71,7 +69,8 @@
 									<i class="bx bx-save text-4 me-2"></i> Save Category
 								</button>
 							</div>
-							
+							 
+							 
 						</div>
 					</form>
 					<!-- end: page -->

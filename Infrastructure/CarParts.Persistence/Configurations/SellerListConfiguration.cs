@@ -13,7 +13,6 @@ namespace CarParts.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<SellerList> builder)
         {
-            builder.HasOne(x => x.Product).WithMany(x => x.SellerLists).HasForeignKey(x => x.ProductId);
-        }
+         }
     }
 }

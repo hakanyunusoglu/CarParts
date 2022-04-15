@@ -24,7 +24,7 @@ namespace CarParts.UI.Areas.Management.Controllers
             var client = _httpClientFactory.CreateClient();
             var token = User.Claims.SingleOrDefault(x => x.Type == "accessToken")?.Value;
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-            var response = await client.GetAsync("https://localhost:7076/api/Categories");
+            var response = await client.GetAsync("https://localhost:7076/api/Product");
             if (response.IsSuccessStatusCode)
             {
 
@@ -33,10 +33,7 @@ namespace CarParts.UI.Areas.Management.Controllers
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                 };
 
-                //var options = new JsonSerializerOptions();
-                //options.Converters.Add(new JsonStringEnumConverter());
-                //options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;,
-                //options.PropertyNamingPolicy = new UpperCaseNamingPolicy()
+                
 
                 var jsonString = await response.Content.ReadAsStringAsync();
                 var list = System.Text.Json.JsonSerializer.Deserialize<List<ProductModel>>(jsonString, options);
@@ -62,6 +59,13 @@ namespace CarParts.UI.Areas.Management.Controllers
 
             Guid ids = Guid.NewGuid();
             myCat.Id = ids;
+<<<<<<< HEAD
+=======
+            myCat.Image = "image.jpg";
+            myCat.Description = "Açıklama";
+            myCat.Slug = "slug";
+
+>>>>>>> origin/JwtDev
             var stringContent = new StringContent(JsonConvert.SerializeObject(myCat), Encoding.UTF8, "application/json");
             var result = await client.PostAsync("https://localhost:7076/api/Product", stringContent);
 
